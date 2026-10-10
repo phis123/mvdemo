@@ -1,5 +1,8 @@
 # MV demo · 搜索框打字 → 缓慢放大（5 秒 · 无音频 · 中英双语）
 
+> **来源**：渲染架构（纯函数 `renderFrame(t)`、配置与代码分离、时间轴数据化、确定性验证、接触表评审）参考并学习了 [Nyankomintsu/world-execute-me-lyric-mv](https://github.com/Nyankomintsu/world-execute-me-lyric-mv)（代码 MIT）。
+> 本仓库**不含**该项目的任何代码或素材，详见 [CREDITS.md](CREDITS.md)。
+
 这是一个**可复现的演示**，证明那套实现形式能用：**一条时间轴 → 一个纯函数 `renderFrame(t)` → 逐帧出图**。
 画面里没有任何素材文件、没有剪辑、没有配音：搜索框、光标、字形、纸张质感全部由代码绘制。
 
