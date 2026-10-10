@@ -1,0 +1,15 @@
+{
+  "name": "mv-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A deterministic, code-rendered 5s demo: a search box types a bilingual query, then slowly grows.",
+  "scripts": {
+    "preview": "node tools/server.mjs --open",
+    "sheet": "node tools/shot.mjs --sheet --times 0.55,0.95,1.50,1.95,2.45,2.90,3.30,3.80,4.20,4.55,4.80,4.95 --cols 3 --cell 640x360 --out out/sheet.png",
+    "seq": "node tools/shot.mjs --seq --out out/frames",
+    "video": "node tools/shot.mjs --video --out out/demo_1080p60.mp4",
+    "verify": "node tools/shot.mjs --verify --times 0.3,1.2,2.0,3.0,4.0,4.9 --repeat 2 --out out/verify.json"
+  },
+  "engines": { "node": ">=20" }
+}

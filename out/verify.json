@@ -1,0 +1,77 @@
+{
+  "times": [
+    0.3,
+    1.2,
+    2,
+    3,
+    4,
+    4.9
+  ],
+  "runs": 2,
+  "results": [
+    {
+      "t": 0.3,
+      "identical": true,
+      "sha256": "876ac7b72ccc0a7c9fccb694da1d724c0bc1350ccb420db303dd6775e9665c03",
+      "typed": "",
+      "zoom": 1,
+      "fonts": []
+    },
+    {
+      "t": 1.2,
+      "identical": true,
+      "sha256": "3b8c69852d752d1c89b7ac36c27e3e000631d4c463af5070ff61ca8b7b0b50b0",
+      "typed": "为什么我们要使用 a",
+      "zoom": 1,
+      "fonts": [
+        "\"Noto Sans SC\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", \"DengXian\", sans-serif",
+        "\"Segoe UI\", \"Inter\", system-ui, sans-serif"
+      ]
+    },
+    {
+      "t": 2,
+      "identical": true,
+      "sha256": "ac98e620df7fed553d813cbcbd7e0e4b2cb64c07d72f0909334237c1a81d0644",
+      "typed": "为什么我们要使用 ai why sho",
+      "zoom": 1,
+      "fonts": [
+        "\"Noto Sans SC\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", \"DengXian\", sans-serif",
+        "\"Segoe UI\", \"Inter\", system-ui, sans-serif"
+      ]
+    },
+    {
+      "t": 3,
+      "identical": true,
+      "sha256": "d5cdeb956df99ca294ed5d001445d9e27fe615ad1e0e7210fcc02a7126b49911",
+      "typed": "为什么我们要使用 ai why should we use a",
+      "zoom": 1.484,
+      "fonts": [
+        "\"Noto Sans SC\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", \"DengXian\", sans-serif",
+        "\"Segoe UI\", \"Inter\", system-ui, sans-serif"
+      ]
+    },
+    {
+      "t": 4,
+      "identical": true,
+      "sha256": "ccecd1a70786642db589a7f57ae311ee3db53379a742f1121211a746051cc4ce",
+      "typed": "为什么我们要使用 ai why should we use ai",
+      "zoom": 3.6123,
+      "fonts": [
+        "\"Noto Sans SC\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", \"DengXian\", sans-serif",
+        "\"Segoe UI\", \"Inter\", system-ui, sans-serif"
+      ]
+    },
+    {
+      "t": 4.9,
+      "identical": true,
+      "sha256": "1457540a589b53f500ef8276dbe61c10458edbee45d664850d6611bca6fd1027",
+      "typed": "为什么我们要使用 ai why should we use ai",
+      "zoom": 4.5901,
+      "fonts": [
+        "\"Noto Sans SC\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", \"DengXian\", sans-serif",
+        "\"Segoe UI\", \"Inter\", system-ui, sans-serif"
+      ]
+    }
+  ],
+  "allIdentical": true
+}

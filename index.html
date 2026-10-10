@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>demo · search box typing + slow zoom</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #0b0a0e; overflow: hidden; }
+  #stage {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+  }
+  canvas {
+    display: block;
+    max-width: 100vw; max-height: 100vh;
+    box-shadow: 0 0 0 1px #1e1c27;
+  }
+  #hud {
+    position: fixed; left: 14px; bottom: 12px;
+    font: 12px/1.5 "Cascadia Mono", Consolas, monospace;
+    color: #6f6a7d; user-select: none; pointer-events: none;
+    white-space: pre;
+  }
+  #hud b { color: #c8563f; font-weight: 600; }
+  body.export #hud { display: none; }
+  body.export { background: #000; }
+</style>
+</head>
+<body>
+  <div id="stage"><canvas id="cv"></canvas></div>
+  <div id="hud"></div>
+
+  <script type="module">
+    import { renderFrame, VIEW } from '/src/render.mjs';
+
+    const q = new URLSearchParams(location.search);
+    const mode = q.get('mode') || 'preview';
+    const num = (k, d) => (q.has(k) ? Number(q.get(k)) : d);
+
+    const cfg = await fetch('/config.json').then((r) => r.json());
+    const fps = cfg.fps;
+    const duration = cfg.duration;
+
+    const canvas = document.getElementById('cv');
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    let W = num('w', mode === 'export' ? 1920 : 1280);
+    let H = num('h', mode === 'export' ? 1080 : 720);
+
+    function resize(w, h) {
+      W = w; H = h;
+      canvas.width = W; canvas.height = H;
+      canvas.style.width = mode === 'export' ? W + 'px' : '';
+      canvas.style.height = mode === 'export' ? H + 'px' : '';
+      if (mode === 'export') {
+        document.body.classList.add('export');
+        document.body.style.width = W + 'px';
+        document.body.style.height = H + 'px';
+      }
+      state = { sx: W / VIEW.VW, sy: H / VIEW.VH };
+      draw(cur);
+    }
+    let state = { sx: W / VIEW.VW, sy: H / VIEW.VH };
+
+    // A tiny stand-in for the real engine's asset pipeline: report the font
+    // families the piece needs, and fail loudly if the browser cannot supply them.
+    const need = [cfg.fonts.cjk, cfg.fonts.latin, cfg.fonts.mono];
+    const fontReport = need.map((f) => {
+      const family = f.split(',')[0].replace(/["']/g, '').trim();
+      return { family, available: document.fonts.check(`16px "${family}"`) };
+    });
+
+    const info = { frames: 0, lastMeta: null, fonts: fontReport };
+
+    function draw(t) {
+      info.frames++;
+      info.lastMeta = renderFrame(t, ctx, cfg, state) || null;
+      return info.lastMeta;
+    }
+
+    let cur = mode === 'export' ? num('t', 0) : 0;
+    let lastMeta = draw(cur);
+
+    /* ---------------------------------------------------------- export API */
+    if (mode === 'export') {
+      window.__mv = {
+        fps,
+        duration,
+        fonts: fontReport,
+        setTime(t) { cur = t; lastMeta = draw(t); return lastMeta; },
+        // Raw RGBA straight out of the canvas. No PNG round-trip on our side.
+        grab() {
+          const d = ctx.getImageData(0, 0, W, H);
+          let bin = '';
+          const bytes = new Uint8Array(d.data.buffer);
+          const CHUNK = 0x8000;
+          for (let i = 0; i < bytes.length; i += CHUNK) {
+            bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+          }
+          return { w: W, h: H, b64: btoa(bin), meta: lastMeta };
+        },
+        // Used by the contact-sheet mode to bake a caption with real glyphs.
+        caption(text) {
+          ctx.save();
+          ctx.font = '600 46px "Cascadia Mono", Consolas, monospace';
+          const w = ctx.measureText(text).width;
+          ctx.fillStyle = '#000000d9';
+          ctx.fillRect(24, H - 104, w + 48, 72);
+          ctx.fillStyle = '#f2ece2';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(text, 48, H - 68);
+          ctx.restore();
+        },
+        ready: true,
+      };
+    }
+
+    /* -------------------------------------------------------- preview loop */
+    const audio = null; // the piece has no sound; the timeline is its own clock
+    const t0 = performance.now();
+    const hud = document.getElementById('hud');
+    const key = (k) => (k < 10 ? ' ' : '') + k;
+
+    function tick() {
+      if (mode === 'preview') {
+        if (!window.__paused) {
+          const wall = (performance.now() - t0) / 1000;
+          const t = q.has('t') && !window.__looping ? num('t', 0) : wall % duration;
+          if (t !== cur || !lastMeta) { cur = t; lastMeta = draw(t); }
+        }
+        hud.textContent =
+          `t ${cur.toFixed(3)}s   frame ${Math.round(cur * fps)}/${Math.round(duration * fps)}` +
+          `   ${W}x${H}   ${window.__paused ? 'PAUSED' : 'playing'}\n` +
+          `space pause · ←/→ 1s · ,/. frame · home restart\n` +
+          fontReport.map((f) => `${f.family}${f.available ? '' : ' (fallback)'}`).join(' · ');
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    addEventListener('keydown', (e) => {
+      if (e.code === 'Space') { window.__paused = !window.__paused; e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { window.__paused = true; window.__looping = true; cur = Math.max(0, cur - 1); draw(cur); }
+      if (e.key === 'ArrowRight') { window.__paused = true; window.__looping = true; cur = Math.min(duration, cur + 1); draw(cur); }
+      if (e.key === ',') { window.__paused = true; window.__looping = true; cur = Math.max(0, cur - 1 / fps); draw(cur); }
+      if (e.key === '.') { window.__paused = true; window.__looping = true; cur = Math.min(duration, cur + 1 / fps); draw(cur); }
+      if (e.key === 'Home') { window.__paused = true; window.__looping = true; cur = 0; draw(cur); }
+    });
+
+    addEventListener('resize', () => { if (mode !== 'export') resize(1280, 720); });
+    resize(W, H);
+
+    window.__preview = { ready: true, setSize: resize, setTime: (t) => { cur = t; draw(t); }, cfg };
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+{
+  "title": "demo · search box typing + slow zoom",
+  "fps": 60,
+  "duration": 5.0,
+  "seed": 20161011,
+  "layout": {
+    "margin": 84
+  },
+  "timeline": {
+    "end": 5.0,
+    "intro": { "from": 0.05, "to": 0.75 },
+    "caret": { "blinkHz": 2.6, "hideAt": 99 },
+
+    "placeholder": "搜索…  /  search…",
+
+    "segments": [
+      { "from": 0.50, "to": 0.90, "text": "为什么我们要使用 ", "kind": "cjk" },
+      { "from": 0.90, "to": 1.45, "text": "ai ", "kind": "latin", "highlight": true },
+      { "from": 1.55, "to": 2.70, "text": "why should we use ", "kind": "latin" },
+      { "from": 2.70, "to": 3.10, "text": "ai", "kind": "latin", "highlight": true }
+    ],
+
+    "highlight": { "text": "ai", "after": 0 },
+
+    "zoom": { "from": 2.30, "to": 5.00, "from_scale": 1.0, "to_scale": 4.6, "ease": 2 },
+
+    "box": {
+      "cx": 960,
+      "cy": 486,
+      "width": 1360,
+      "height": 156,
+      "radius": 32,
+      "lineWidth": 3,
+      "glowBlur": 62,
+      "fontSize": 52,
+      "text": { "x": 168 },
+      "icon": { "x": 92, "y": 78, "r": 23 }
+    },
+
+    "watermark": {
+      "size": 132,
+      "x": 960,
+      "y": 936,
+      "rotate": -3,
+      "alpha": 0.055,
+      "clipY": 1000
+    },
+
+    "subtitles": {
+      "from": 1.45,
+      "in": 0.60,
+      "y": 856,
+      "rows": [
+        { "text": "为什么我们要使用 AI", "size": 66, "gap": 30, "cjk": true },
+        { "text": "why should we use AI?", "size": 44, "gap": 0, "cjk": false }
+      ]
+    },
+
+    "rail": { "y": 1012, "width": 1480, "thickness": 3 }
+  },
+  "post": {
+    "grain": 0.16,
+    "cell": 5,
+    "vignette": 0.55
+  },
+  "palette": {
+    "bg": "#0d0c10",
+    "stage": "#1a1824",
+    "stageFade": "#121019",
+    "stageEnd": "#0b0a0e",
+    "rule": "#1e1c27",
+    "boxFill": "#f4efe6",
+    "boxFillHot": "#ffffff",
+    "boxLine": "#3a3648",
+    "text": "#17161c",
+    "placeholder": "#8d8798",
+    "accent": "#c8563f",
+    "caret": "#17161c",
+    "iconIdle": "#8d8798",
+    "glow": "#e0603f",
+    "subPlate": "#0a090dcc",
+    "subText": "#f2ece2",
+    "watermark": "#efe9df",
+    "railTrack": "#232130",
+    "railFill": "#c8563f",
+    "grain": "#ffffff",
+    "vig0": "#00000000",
+    "vig1": "#000000"
+  },
+  "fonts": {
+    "cjk": "\"Noto Sans SC\", \"Microsoft YaHei UI\", \"Microsoft YaHei\", \"DengXian\", sans-serif",
+    "latin": "\"Segoe UI\", \"Inter\", system-ui, sans-serif",
+    "mono": "\"Cascadia Mono\", Consolas, monospace"
+  }
+}

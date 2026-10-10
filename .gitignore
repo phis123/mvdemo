@@ -1,0 +1,23 @@
+# NOTE: gitignore does NOT support comments on the same line as a pattern.
+# `out/frames/   # comment` is treated as the literal path "out/frames/   # comment",
+# so the rule silently does nothing. Every pattern below is on its own line.
+
+# --- ignored ---------------------------------------------------------------
+out/frames/
+out/*.mp4
+tools/bin/
+tools/git/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# --- kept on purpose (small review artefacts) ------------------------------
+!out/timeline.png
+!out/sheet.png
+!out/sheet.json
+!out/verify.json
+
+# The finished film is small and is the point of the repository. To keep it out
+# of git history instead, publish it as a Release asset and delete this line.
+!out/demo_1080p60.mp4

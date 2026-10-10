@@ -1,0 +1,10 @@
+# One line ending everywhere, so the PNG/MP4 hashes and the source stay stable
+# across machines. Windows checkouts keep LF on purpose: this project is
+# JavaScript, and mixed endings are what fill `git status` with noise.
+* text=auto eol=lf
+
+# Rendered output must never be normalised or diffed.
+*.png binary
+*.mp4 binary
+*.jpg binary
+*.zip binary
